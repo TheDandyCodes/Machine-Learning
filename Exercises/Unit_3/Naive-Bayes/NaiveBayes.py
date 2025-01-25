@@ -117,7 +117,7 @@ class NaiveBayes:
             likelihood = 1
             for feat in X_test.columns:
                 if X_test[feat].dtype == 'object':
-                    likelihood*=X_test[feat].map(nb.parameters[class_][feat])
+                    likelihood*=X_test[feat].map(self.parameters[class_][feat])
                 else:
                     likelihood*=self._gauss_likelihood(X_test[feat], self.parameters[class_][feat]['mean'], self.parameters[class_][feat]['std'])
             probabilities[class_] = likelihood*self.parameters[class_]['apriori']
@@ -142,7 +142,7 @@ class NaiveBayes:
             likelihood = 0
             for feat in X_test.columns:
                 if X_test[feat].dtype == 'object':
-                    likelihood+=np.log(X_test[feat].map(nb.parameters[class_][feat]))
+                    likelihood+=np.log(X_test[feat].map(self.parameters[class_][feat]))
                 else:
                     likelihood+=np.log(self._gauss_likelihood(X_test[feat], self.parameters[class_][feat]['mean'], self.parameters[class_][feat]['std']))
             log_probabilities[class_] = likelihood+np.log(self.parameters[class_]['apriori'])
@@ -243,7 +243,7 @@ class NaiveBayes:
             
             accuracy = self.accuracy_metric(y_true=y_test, y_pred=y_pred)
             accuracies.append(accuracy)
-            mean_accuracy = np.mean(accuracies)
+        mean_accuracy = np.mean(accuracies)
         return accuracies, mean_accuracy
 
 if __name__ == '__main__':
