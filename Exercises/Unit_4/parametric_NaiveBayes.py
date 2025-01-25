@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Optional
 from tqdm import tqdm
+from scipy.stats import norm, bernoulli, multinomial
 
 class NaiveBayes:
     def __init__(self):
@@ -119,7 +120,8 @@ class NaiveBayes:
                 if X_test[feat].dtype == 'object':
                     likelihood*=X_test[feat].map(self.parameters[class_][feat])
                 else:
-                    likelihood*=self._gauss_likelihood(X_test[feat], self.parameters[class_][feat]['mean'], self.parameters[class_][feat]['std'])
+                    # norm.pdf(X_test[feat], self.parameters[class_][feat]['mean'], self.parameters[class_][feat]['std'])
+                    likelihood*=norm.pdf(X_test[feat], self.parameters[class_][feat]['mean'], self.parameters[class_][feat]['std'])
             probabilities[class_] = likelihood*self.parameters[class_]['apriori']
 
         return probabilities
