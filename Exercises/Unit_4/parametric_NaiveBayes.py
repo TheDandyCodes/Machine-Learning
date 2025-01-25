@@ -235,11 +235,12 @@ class NaiveBayes:
         folds = self._cross_validation_split(k=k, data=data)
         accuracies = []
         for fold in tqdm(folds, desc='Folds', total=k):
-            X_train = fold['train'].iloc[:, :-1]
-            y_train = fold['train'].iloc[:, -1]
-            X_test = fold['test'].iloc[:, :-1]
-            y_test = fold['test'].iloc[:, -1]
-
+            # Reset index to avoid problems with the index of the data
+            # when extracting probabilities using scipy distributions.
+            X_train = fold['train'].iloc[:, :-1].reset_index(drop=True)
+            y_train = fold['train'].iloc[:, -1].reset_index(drop=True)
+            X_test = fold['test'].iloc[:, :-1].reset_index(drop=True)
+            y_test = fold['test'].iloc[:, -1].reset_index(drop=True)
             self.fit(X_train=X_train, y_train=y_train)
             y_pred = self.predict(X_test=X_test, method=method)
             
