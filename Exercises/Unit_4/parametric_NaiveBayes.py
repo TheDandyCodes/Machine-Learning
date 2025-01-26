@@ -7,6 +7,8 @@ from tqdm import tqdm
 
 
 class NaiveBayes:
+    """Naive Bayes classifier."""
+
     def __init__(self):
         self.parameters = {}
         self.probabilities = {}
