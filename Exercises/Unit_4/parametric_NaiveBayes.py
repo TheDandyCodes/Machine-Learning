@@ -2,7 +2,7 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
-from scipy.stats import norm
+from scipy.stats import norm, multinomial
 from tqdm import tqdm
 
 
@@ -120,7 +120,7 @@ class NaiveBayes:
                     X_train, y_train, feature
                 )
                 parameters[class_][feature] = laplace_smth_result_dict[class_]
-
+        print(parameters)
         self.parameters = parameters
 
     def predict_prob(self, X_test: pd.DataFrame) -> dict[str, pd.Series]:
@@ -170,10 +170,22 @@ class NaiveBayes:
             likelihood = 0
             for feat in X_test.columns:
                 if X_test[feat].dtype == "object":
-                    likelihood += np.log(
-                        X_test[feat].map(self.parameters[class_][feat])
-                    )
-                else:
+                    if len(X_test[feat].unique()) == 2:  # Binary variable (Bernoulli)
+                        # The Bernoulli PMF also uses a ratio (p) that is equivalent to
+                        # the relative frequency in the dataset.
+                        likelihood += np.log(
+                            X_test[feat].map(self.parameters[class_][feat])
+                        )
+                    else:  # Categorical variable (Multinomial)
+                        likelihood += np.log(
+                            X_test[feat].map(self.parameters[class_][feat])
+                        )
+                        # likelihood += multinomial.logpmf(
+                        #     X_test[feat].map(self.parameters[class_][feat]).values,
+                        #     n=1,
+                        #     p=1,
+                        # )
+                else:  # Continuous variable
                     likelihood += norm.logpdf(
                         X_test[feat],
                         self.parameters[class_][feat]["mean"],
