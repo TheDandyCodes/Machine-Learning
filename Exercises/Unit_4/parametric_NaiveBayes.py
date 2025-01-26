@@ -1,4 +1,4 @@
-from typing import Optional, dict
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -174,12 +174,10 @@ class NaiveBayes:
                         X_test[feat].map(self.parameters[class_][feat])
                     )
                 else:
-                    likelihood += np.log(
-                        self._gauss_likelihood(
-                            X_test[feat],
-                            self.parameters[class_][feat]["mean"],
-                            self.parameters[class_][feat]["std"],
-                        )
+                    likelihood += norm.logpdf(
+                        X_test[feat],
+                        self.parameters[class_][feat]["mean"],
+                        self.parameters[class_][feat]["std"],
                     )
             log_probabilities[class_] = likelihood + np.log(
                 self.parameters[class_]["apriori"]
