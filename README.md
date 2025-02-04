@@ -1,4 +1,4 @@
-![Black Liquid Minimalist Daily Quotes LinkedIn Banner](https://github.com/user-attachments/assets/bce7a82e-0552-47f0-a99e-a39c43d6ac32)
+![Black Liquid Minimalist Daily Quotes LinkedIn Banner](https://github.com/user-attachments/assets/2cea33ba-a7e1-48c5-9e9d-8726eeb23a31)
 
 Machine Learning subject from MS, Artificial Intelligence UNED
 
