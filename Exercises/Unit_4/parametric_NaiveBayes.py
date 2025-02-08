@@ -448,27 +448,25 @@ if __name__ == "__main__":
     # la frecuencia relativa en el dataset, es decir, para una variable binaria,
     # la frecuencia relativa del valor de la variable para cada clase es equivalente
     # a la probabilidad de la variable para cada clase según la distribución.
-    # Por otro lado, la distribución Multinomial se emplea para variables categóricas
-    #
+    # Por otro lado, la distribución Multinomial se emplea para variables categóricas.
+    # En este caso, se asume que solo se observa una categoría (una fila) por fila,
+    # por lo que el parámetro n es igual a 1. El parámetro p es un vector con las
+    # probabilidades y x es un vector con el número de ocurrencias de cada categoría,
+    # donde para cada fila, solo una categoría tiene un valor de 1 y el resto de 0.
+    # La distribución Normal se empleaba en la versión anterior de este código.
 
-    # ## Resultados de la evalaución del modelo con el dataset IRIS ##
-    # Evaluating the model with NO log-probabilities...
+    # ## Resultados de la evaluación los modelos no paramétrico y paramétrico con el dataset IRIS ##
 
-    # Fold 0 - Accuracy: 1.0
-    # Fold 1 - Accuracy: 0.9
-    # Fold 2 - Accuracy: 0.9333333333333333
+    # Evaluating the NON PARAMETRIC MODEL with log-probabilities...
+
+    # Fold 0 - Accuracy: 0.9666666666666667
+    # Fold 1 - Accuracy: 0.9666666666666667
+    # Fold 2 - Accuracy: 0.8333333333333334
     # Fold 3 - Accuracy: 1.0
-    # Fold 4 - Accuracy: 0.9333333333333333
+    # Fold 4 - Accuracy: 1.0
     # Mean Accuracy: 0.9533333333333334
 
-    # Estos resultados indican que el modelo tiene un buen desempeño en términos
-    # de Accuracy (Predicciones correctas / Total de predicciones)
-    # en la clasificación de las flores del dataset Iris (Setosa, Versicolor, Virginica)
-    # Esto quiere decir que el dataset contiene información suficiente para que
-    # el modelo pueda aprender y generalizar correctamente
-    # a partir del cálculo de las probabilidades condicionales de las features.
-
-    # Evaluating the model with log-probabilities...
+    # Evaluating the PARAMETRIC MODEL with log-probabilities...
 
     # Fold 0 - Accuracy: 1.0
     # Fold 1 - Accuracy: 0.9666666666666667
@@ -477,27 +475,23 @@ if __name__ == "__main__":
     # Fold 4 - Accuracy: 0.9666666666666667
     # Mean Accuracy: 0.9466666666666667
 
-    # En este caso, se emplea el logaritmo de las probabilidades para evitar problemas
-    # de underflow, dado que las probabilidades son valores muy pequeños pudiendo ser
-    # cero en algunos casos. El desempeño es similar al modelo sin logaritmos
+    # Como se puede observar, las probabilidades calculadas con el modelo paramétrico
+    # y el modelo no paramétrico son similares, por lo que se ha explicado en
+    # el comentario de la parte superior. Las diferencias que se observan pueden deberse
+    # a la aleatoriedad de la partición de los datos en los K folds del Cross Validation
 
-    # ## Resultados de la evalaución del modelo con el dataset BANK MARKETING ##
-    # Evaluating the model with NO log-probabilities...
+    # ## Resultados de la evaluación los modelos no paramétrico y paramétrico con el dataset BANK MARKETING ##
 
-    # Fold 0 - Accuracy: 0.8837828452367172
-    # Fold 1 - Accuracy: 0.8745225141798819
-    # Fold 2 - Accuracy: 0.8732492186595671
-    # Fold 3 - Accuracy: 0.8765918036582542
-    # Fold 4 - Accuracy: 0.8831905533688353
-    # Mean Accuracy: 0.878267387020651
+    # Evaluating the NON PARAMETRIC MODEL with log-probabilities...
 
-    # En este caso, el modelo tiene un desempeño aceptable en términos de Accuracy
-    # en la clasificación de los clientes (Sí se suscribe a un depósito, No se suscribe
-    # a un depósito). Dado que el dataset contiene más complejidad en términos de la
-    # cantidad de features y la cantidad de datos, el modelo tiene un desempeño menos
-    # preciso que en el caso del dataset Iris.
+    # Fold 0 - Accuracy: 0.8845931242041903
+    # Fold 1 - Accuracy: 0.8789211714318786
+    # Fold 2 - Accuracy: 0.8845931242041903
+    # Fold 3 - Accuracy: 0.8790229219726788
+    # Fold 4 - Accuracy: 0.8851586015281315
+    # Mean Accuracy: 0.8824577886682141
 
-    # Evaluating the model with log-probabilities...
+    # Evaluating the PARAMETRIC MODEL with log-probabilities...
 
     # Fold 0 - Accuracy: 0.8747540224563028
     # Fold 1 - Accuracy: 0.8764903345294595
@@ -506,20 +500,18 @@ if __name__ == "__main__":
     # Fold 4 - Accuracy: 0.880064829821718
     # Mean Accuracy: 0.8779895100860877
 
-    # En este caso, se emplea el logaritmo de las probabilidades para evitar problemas
-    # de underflow. El desempeño es similar al modelo sin logaritmos.
+    # Como en el sucede en el caso del dataset IRIS, las probabilidades calculadas con
+    # el modelo paramétrico y el modelo no paramétrico son similares y las diferencias
+    # que se observan pueden deberse a la aleatoriedad de la partición de los datos en
+    # los K folds del Cross Validation
 
-    # ## Resultados de la evalaución del modelo con el dataset MUSHROOMS ##
-    # Evaluating the model with NO log-probabilities...
+    # ## Resultados de la evaluación los modelos no paramétrico y paramétrico con el dataset MUSHROOMS ##
 
-    # Fold 0 - Accuracy: 0.9501538461538461
-    # Fold 1 - Accuracy: 0.9661538461538461
-    # Fold 2 - Accuracy: 0.963076923076923
-    # Fold 3 - Accuracy: 0.96
-    # Fold 4 - Accuracy: 0.9636699507389163
-    # Mean Accuracy: 0.9606109132247063
+    # Evaluating the NON PARAMETRIC MODEL with log-probabilities...
 
-    # Evaluating the model with log-probabilities...
+    # ...
+
+    # Evaluating the PARAMETRIC MODEL with log-probabilities...
 
     # Fold 0 - Accuracy: 0.9581538461538461
     # Fold 1 - Accuracy: 0.9643076923076923
