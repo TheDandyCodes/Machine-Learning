@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict, List
 
 import numpy as np
 import pandas as pd
@@ -52,7 +52,7 @@ class NaiveBayes:
 
     def _discret_likelihood_with_laplace_smth(
         self, X_train: pd.DataFrame, y_train: pd.Series, column: str, alpha: int = 1
-    ) -> dict[str, dict[str, float]]:
+    ) -> Dict[str, Dict[str, float]]:
         """Calculate likelihood of discrets values of a feature using Laplace smoothing.
 
         Parameters
@@ -124,7 +124,7 @@ class NaiveBayes:
 
         self.parameters = parameters
 
-    def predict_prob(self, X_test: pd.DataFrame) -> dict[str, pd.Series]:
+    def predict_prob(self, X_test: pd.DataFrame) -> Dict[str, pd.Series]:
         """Predicts the probability of each class given the features.
 
         Parameters
@@ -134,7 +134,7 @@ class NaiveBayes:
 
         Returns
         -------
-        dict[str, pd.Series]
+        Dict[str, pd.Series]
             Probabilities per class.
         """
         probabilities = {}
@@ -171,7 +171,7 @@ class NaiveBayes:
 
         return probabilities
 
-    def predict_log_prob(self, X_test: pd.DataFrame) -> dict[str, pd.Series]:
+    def predict_log_prob(self, X_test: pd.DataFrame) -> Dict[str, pd.Series]:
         """Predicts the log probability of each class given the features.
 
         Parameters
@@ -181,7 +181,7 @@ class NaiveBayes:
 
         Returns
         -------
-        dict[str, pd.Series]
+        Dict[str, pd.Series]
             Log-probabilities per class.
         """
         log_probabilities = {}
@@ -243,7 +243,7 @@ class NaiveBayes:
 
     def _cross_validation_split(
         self, k: int, data: pd.DataFrame
-    ) -> list[dict[str, pd.DataFrame]]:
+    ) -> list[Dict[str, pd.DataFrame]]:
         """Split the dataset into k folds.
 
         Parameters
@@ -255,7 +255,7 @@ class NaiveBayes:
 
         Returns
         -------
-        list[dict[str, pd.DataFrame]]
+        list[Dict[str, pd.DataFrame]]
             list of dictionaries with the train and test sets.
         """
         data = data.sample(frac=1).reset_index(drop=True)

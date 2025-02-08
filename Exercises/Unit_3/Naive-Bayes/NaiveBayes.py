@@ -1,4 +1,4 @@
-from typing import Optional, dict, list
+from typing import Dict, Optional
 
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 class NaiveBayes:
     """Naive Bayes classifier."""
-    
+
     def __init__(self):
         self.parameters = {}
         self.probabilities = {}
@@ -51,7 +51,7 @@ class NaiveBayes:
 
     def _discret_likelihood_with_laplace_smth(
         self, X_train: pd.DataFrame, y_train: pd.Series, column: str, alpha: int = 1
-    ) -> dict[str, dict[str, float]]:
+    ) -> Dict[str, Dict[str, float]]:
         """Calculate likelihood of discrets values of a feature using Laplace smoothing.
 
         Parameters
@@ -88,7 +88,7 @@ class NaiveBayes:
 
     def fit(self, X_train: pd.DataFrame, y_train: pd.Series):
         """Calculate the mean and the standard deviation of the features per class.
-       
+
         As well as the discrete likelihood of the cathegories
         that belong to discreat features.
 
@@ -122,7 +122,7 @@ class NaiveBayes:
 
         self.parameters = parameters
 
-    def predict_prob(self, X_test: pd.DataFrame) -> dict[str, pd.Series]:
+    def predict_prob(self, X_test: pd.DataFrame) -> Dict[str, pd.Series]:
         """Predicts the probability of each class given the features.
 
         Parameters
@@ -132,7 +132,7 @@ class NaiveBayes:
 
         Returns
         -------
-        dict[str, pd.Series]
+        Dict[str, pd.Series]
             Probabilities per class.
         """
         probabilities = {}
@@ -151,7 +151,7 @@ class NaiveBayes:
 
         return probabilities
 
-    def predict_log_prob(self, X_test: pd.DataFrame) -> dict[str, pd.Series]:
+    def predict_log_prob(self, X_test: pd.DataFrame) -> Dict[str, pd.Series]:
         """Predicts the log probability of each class given the features.
 
         Parameters
@@ -161,7 +161,7 @@ class NaiveBayes:
 
         Returns
         -------
-        dict[str, pd.Series]
+        Dict[str, pd.Series]
             Log-probabilities per class.
         """
         log_probabilities = {}
@@ -210,7 +210,7 @@ class NaiveBayes:
 
     def _cross_validation_split(
         self, k: int, data: pd.DataFrame
-    ) -> list[dict[str, pd.DataFrame]]:
+    ) -> list[Dict[str, pd.DataFrame]]:
         """Split the dataset into k folds.
 
         Parameters
@@ -222,7 +222,7 @@ class NaiveBayes:
 
         Returns
         -------
-        list[dict[str, pd.DataFrame]]
+        list[Dict[str, pd.DataFrame]]
             list of dictionaries with the train and test sets.
         """
         data = data.sample(frac=1).reset_index(drop=True)
@@ -310,6 +310,14 @@ if __name__ == "__main__":
     X_bank_marketing_df_no_misssing = bank_marketing_df_no_misssing.iloc[:, :-1]
     y_bank_marketing_df_no_misssing = bank_marketing_df_no_misssing["y"]
 
+    mushrooms = fetch_ucirepo(id=73)
+    X_mushrooms = mushrooms.data.features.copy()
+    X_mushrooms = X_mushrooms.drop(
+        columns="stalk-root"
+    )  # Drop column w/ missing values
+    y_mushrooms = mushrooms.data.targets  # p = poisonous, e = edible
+    mushrooms_df = pd.concat([X_mushrooms, y_mushrooms], axis=1)
+
     print("## IRIS DATASET ##\n")
     print("Fitting the models...\n")
     nb = NaiveBayes()
@@ -340,6 +348,18 @@ if __name__ == "__main__":
     cv_ev_log = nb.cross_validation_evaluate(
         k=5, data=bank_marketing_df_no_misssing, method="log"
     )
+    for i, fold_acc in enumerate(cv_ev_log[0]):
+        print(f"Fold {i} - Accuracy: {fold_acc}")
+    print(f"Mean Accuracy: {cv_ev_log[1]}\n\n")
+
+    print("Evaluating the model with NO log-probabilities...\n")
+    cv_ev = nb.cross_validation_evaluate(k=5, data=mushrooms_df)
+    for i, fold_acc in enumerate(cv_ev[0]):
+        print(f"Fold {i} - Accuracy: {fold_acc}")
+    print(f"Mean Accuracy: {cv_ev[1]}\n\n")
+
+    print("Evaluating the model with log-probabilities...\n")
+    cv_ev_log = nb.cross_validation_evaluate(k=5, data=mushrooms_df, method="log")
     for i, fold_acc in enumerate(cv_ev_log[0]):
         print(f"Fold {i} - Accuracy: {fold_acc}")
     print(f"Mean Accuracy: {cv_ev_log[1]}\n\n")
