@@ -443,11 +443,13 @@ if __name__ == "__main__":
 
     # En esta modificaciíon del código se emplean las distribuciones
     # Multinomial, Bernoulli y Normal para calcular las probabilidades.
-    # Esto no cambia el valor de las probabilidades de una feature por clase.
+    # Esto no cambia el valor de las probabilidades de una feature por clase:
+
     # Por un lado, la distribución Bernoulli usa el ratio (p), que es equivalente a
     # la frecuencia relativa en el dataset, es decir, para una variable binaria,
     # la frecuencia relativa del valor de la variable para cada clase es equivalente
     # a la probabilidad de la variable para cada clase según la distribución.
+    
     # Por otro lado, la distribución Multinomial se emplea para variables categóricas.
     # En este caso, se asume que solo se observa una categoría (una fila) por fila,
     # por lo que el parámetro n es igual a 1. El parámetro p es un vector con las
@@ -509,7 +511,14 @@ if __name__ == "__main__":
 
     # Evaluating the NON PARAMETRIC MODEL with log-probabilities...
 
-    # ...
+    # Evaluating the model with log-probabilities...
+
+    # Fold 0 - Accuracy: 0.9643076923076923
+    # Fold 1 - Accuracy: 0.9593846153846154
+    # Fold 2 - Accuracy: 0.9581538461538461
+    # Fold 3 - Accuracy: 0.9649230769230769
+    # Fold 4 - Accuracy: 0.9532019704433498
+    # Mean Accuracy: 0.9599942402425162
 
     # Evaluating the PARAMETRIC MODEL with log-probabilities...
 
@@ -519,3 +528,8 @@ if __name__ == "__main__":
     # Fold 3 - Accuracy: 0.9575384615384616
     # Fold 4 - Accuracy: 0.9593596059113301
     # Mean Accuracy: 0.9609796134899582
+
+    # En este caso, las probabilidades calculadas con el modelo paramétrico y el modelo
+    # no paramétrico son, de nuevo, muy parecidas. Las diferencias que se observan 
+    # pueden deberse a la aleatoriedad de la partición de los datos en los K folds del 
+    # Cross Validation
