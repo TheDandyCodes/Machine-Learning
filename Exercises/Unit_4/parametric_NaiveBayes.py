@@ -322,6 +322,14 @@ if __name__ == "__main__":
     X_bank_marketing_df_no_misssing = bank_marketing_df_no_misssing.iloc[:, :-1]
     y_bank_marketing_df_no_misssing = bank_marketing_df_no_misssing["y"]
 
+    mushrooms = fetch_ucirepo(id=73)
+    X_mushrooms = mushrooms.data.features.copy()
+    X_mushrooms = X_mushrooms.drop(
+        columns="stalk-root"
+    )  # Drop column w/ missing values
+    y_mushrooms = mushrooms.data.targets  # p = poisonous, e = edible
+    mushrooms_df = pd.concat([X_mushrooms, y_mushrooms], axis=1)
+
     print("## IRIS DATASET ##\n")
     print("Fitting the models...\n")
     nb = NaiveBayes()
