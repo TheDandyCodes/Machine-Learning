@@ -310,6 +310,14 @@ if __name__ == "__main__":
     X_bank_marketing_df_no_misssing = bank_marketing_df_no_misssing.iloc[:, :-1]
     y_bank_marketing_df_no_misssing = bank_marketing_df_no_misssing["y"]
 
+    mushrooms = fetch_ucirepo(id=73)
+    X_mushrooms = mushrooms.data.features.copy()
+    X_mushrooms = X_mushrooms.drop(
+        columns="stalk-root"
+    )  # Drop column w/ missing values
+    y_mushrooms = mushrooms.data.targets  # p = poisonous, e = edible
+    mushrooms_df = pd.concat([X_mushrooms, y_mushrooms], axis=1)
+
     print("## IRIS DATASET ##\n")
     print("Fitting the models...\n")
     nb = NaiveBayes()
@@ -340,6 +348,18 @@ if __name__ == "__main__":
     cv_ev_log = nb.cross_validation_evaluate(
         k=5, data=bank_marketing_df_no_misssing, method="log"
     )
+    for i, fold_acc in enumerate(cv_ev_log[0]):
+        print(f"Fold {i} - Accuracy: {fold_acc}")
+    print(f"Mean Accuracy: {cv_ev_log[1]}\n\n")
+
+    print("Evaluating the model with NO log-probabilities...\n")
+    cv_ev = nb.cross_validation_evaluate(k=5, data=mushrooms_df)
+    for i, fold_acc in enumerate(cv_ev[0]):
+        print(f"Fold {i} - Accuracy: {fold_acc}")
+    print(f"Mean Accuracy: {cv_ev[1]}\n\n")
+
+    print("Evaluating the model with log-probabilities...\n")
+    cv_ev_log = nb.cross_validation_evaluate(k=5, data=mushrooms_df, method="log")
     for i, fold_acc in enumerate(cv_ev_log[0]):
         print(f"Fold {i} - Accuracy: {fold_acc}")
     print(f"Mean Accuracy: {cv_ev_log[1]}\n\n")
